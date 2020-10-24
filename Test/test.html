@@ -10,6 +10,7 @@
     <main>
         <h2>Lorem ipsum dolor sit amet!</h2>
         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <button type="button" class="coib-button" id="btn_test">Test</button>
     </main>
     
     
@@ -38,5 +39,25 @@
             link1 and link2.
         </span>
     </div>
+    
 </body>
+
+
+
+<script type="text/javascript">
+document.getElementById('btn_test').onclick = function() {
+    console.log("Clicked");
+    //document.getElementById('load_dym_script').type = "text/javascript";
+    let myScript = document.createElement("script");
+    // Load external script
+    //myScript.setAttribute("src", "https://www.example.com/foo.js");
+    // Load internal script (has to be of type text/plain to be not executed immediately)
+    myScript.innerHTML = document.getElementById('load_dym_script').innerHTML;
+    document.body.appendChild(myScript);
+};
+</script>
+<script id="load_dym_script" type="text/plain">
+console.log("Script loaded");
+window.alert("Script loaded");
+</script>
 </html>
