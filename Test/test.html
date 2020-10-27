@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Cookie Test</title>
     <link rel="stylesheet" href="../cookie-opt-in-box/cookie-opt-in-box.css">
+    <script src="../cookie-opt-in-box/cookie-opt-in-box.js"></script>
 </head>
 <body>
     <main>
         <h2>Lorem ipsum dolor sit amet!</h2>
         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
         <button type="button" class="coib-button" id="btn_test">Test</button>
+        <button type="button" class="coib-button" id="btn_show_box" onclick="coib_show_box()">Show Box</button>
     </main>
     
     
-    <div id="coib-cookie-box">
+    <div id="coib-cookie-box" class="coib-cookie-box-animation coib-cookie-box-fade-in-bottom">
         <span id="coib-title">Cookies</span>
         <div class="coib-selection-container">
             <label class="coib-checkbox-container">Essential
@@ -26,15 +28,15 @@
                 <span class="coib-checkbox"></span>
             </label>
             <label class="coib-checkbox-container">External Media
-                <input id="coib-essential-analytics" type="checkbox" name="analytics">
+                <input id="coib-essential-analytics" type="checkbox" name="external">
                 <span class="coib-checkbox"></span>
             </label>
         </div>
         <span id="coib-description">
             We are using Cookies. Some are essential. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
         </span>
-        <button type="button" class="coib-button coib-button-primary">Accept All</button>
-        <button type="button" class="coib-button">Save & Exit</button>
+        <button type="button" class="coib-button coib-button-primary" onclick="coib_accept_all()">Accept All</button>
+        <button type="button" class="coib-button" onclick="coib_save_exit()">Save & Exit</button>
         <span id="coib-more">
             link1 and link2.
         </span>

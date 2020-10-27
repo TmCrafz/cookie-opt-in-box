@@ -1,7 +1,7 @@
 #coib-cookie-box {
     font-family: Arial, Helvetica, sans-serif;
-    display: block;
-    /* display: none */
+    /* display: block; */
+    display: none;
     position: fixed;
     z-index: 9999;
     right: 12px;
@@ -11,6 +11,36 @@
     max-width: 360px;
     box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
 }
+
+.coib-cookie-box-animation {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.coib-cookie-box-fade-in-bottom { 
+    animation-name: coib-fade-in-bottom 
+}
+@keyframes coib-fade-in-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to { opacity: 1 }
+}
+
+.coib-cookie-box-fade-out-bottom { 
+    animation-name: coib-fade-out-bottom 
+}
+@keyframes coib-fade-out-bottom {
+    from {
+        opacity: 1;
+    }
+    to { 
+        opacity: 0;
+        transform: translateY(100%);
+    }
+}
+
 
 #coib-title {
     display: block;
