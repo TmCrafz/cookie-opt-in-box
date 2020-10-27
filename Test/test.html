@@ -6,29 +6,57 @@
     <title>Cookie Test</title>
     <link rel="stylesheet" href="../cookie-opt-in-box/cookie-opt-in-box.css">
     <script src="../cookie-opt-in-box/cookie-opt-in-box.js"></script>
+    <script>
+        // Turn load/unload your scripts
+        function coib_on_state_changed(allowed_cookies) {         
+            // Load scripts   
+            for (i = 0; i < allowed_cookies.length; i++) {
+                let cookie_name = allowed_cookies[i];
+                if (cookie_name == "coib_analytics") {
+                    // Only load script when it's not already loaded
+                    if (document.getElementById('script_internal_loaded') == null) {
+                        // Load internal script (has to be of type text/plain to be not executed immediately)
+                        let script_internal = document.createElement("script");
+                        script_internal.id = "script_internal_loaded";
+                        script_internal.innerHTML = document.getElementById('script_internal_unloaded').innerHTML;
+                        document.body.appendChild(script_internal);
+                    }
+                }
+                else if (cookie_name == "coib_external") {
+                    // Only load script when it's not already loaded
+                    if (document.getElementById('script_external_loaded') == null) {
+                        // Load external script
+                        let script_external = document.createElement("script");
+                        script_external.id = "script_external_loaded";
+                        script_external.setAttribute("src", "external_test_script.js");
+                        document.body.appendChild(script_external);
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <main>
         <h2>Lorem ipsum dolor sit amet!</h2>
         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <button type="button" class="coib-button" id="btn_test">Test</button>
-        <button type="button" class="coib-button" id="btn_show_box" onclick="coib_show_box()">Show Box</button>
+        <button type="button" class="coib-button" id="btn_show_box" onclick="coib_show_box()">Configure Privcy Preference</button>
     </main>
     
     
     <div id="coib-cookie-box" class="coib-cookie-box-animation coib-cookie-box-fade-in-bottom">
-        <span id="coib-title">Cookies</span>
+        <span id="coib-title">Privcy Preference</span>
         <div class="coib-selection-container">
             <label class="coib-checkbox-container">Essential
-                <input id="coib-essential-entry" type="checkbox" name="essential" checked="checked" disabled>
+                <input id="coib-essential-entry" type="checkbox" name="coib_essential" checked="checked" disabled>
                 <span class="coib-checkbox"></span>
             </label>
             <label class="coib-checkbox-container">Analytics
-                <input id="coib-essential-analytics" type="checkbox" name="analytics">
+                <input id="coib-essential-analytics" type="checkbox" name="coib_analytics">
                 <span class="coib-checkbox"></span>
             </label>
             <label class="coib-checkbox-container">External Media
-                <input id="coib-essential-analytics" type="checkbox" name="external">
+                <input id="coib-essential-analytics" type="checkbox" name="coib_external">
                 <span class="coib-checkbox"></span>
             </label>
         </div>
@@ -44,22 +72,12 @@
     
 </body>
 
-
-
-<script type="text/javascript">
-document.getElementById('btn_test').onclick = function() {
-    console.log("Clicked");
-    //document.getElementById('load_dym_script').type = "text/javascript";
-    let myScript = document.createElement("script");
-    // Load external script
-    //myScript.setAttribute("src", "https://www.example.com/foo.js");
-    // Load internal script (has to be of type text/plain to be not executed immediately)
-    myScript.innerHTML = document.getElementById('load_dym_script').innerHTML;
-    document.body.appendChild(myScript);
-};
 </script>
-<script id="load_dym_script" type="text/plain">
-console.log("Script loaded");
-window.alert("Script loaded");
+<script id="script_internal_unloaded" type="text/plain">
+    let cnt_internal = 0;
+    setInterval(function() {
+        cnt_internal++;
+        console.log("Internal Script executed. Num: " + cnt_internal);
+    }, 1000);
 </script>
 </html>

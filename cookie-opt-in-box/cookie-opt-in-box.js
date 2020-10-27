@@ -1,5 +1,27 @@
+function coib_ready(callback) {
+    // in case the document is already rendered
+    if (document.readyState != 'loading') callback();
+    // modern browsers
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+    // IE <= 8
+    else document.attachEvent('onreadystatechange', function(){
+        if (document.readyState=='complete') callback();
+    });
+}
+
+coib_ready(function() {
+    if (coib_get_cookie("coib_seen") == "true") {
+        let json_str = coib_get_cookie("coib_allowed_cookies");
+        let allowed_cookies = JSON.parse(json_str);
+        coib_restore_state(allowed_cookies);
+        coib_on_state_changed(allowed_cookies);
+    }
+    else {
+        coib_show_box();
+    }
+});
+
 function coib_accept_all() {
-    console.log("coib_accept_all");
     // Check all checkboxes
     let element = document.getElementById("coib-cookie-box");
     inputs = element.getElementsByTagName('input');
@@ -13,20 +35,16 @@ function coib_accept_all() {
     element.classList.remove("coib-cookie-box-fade-in-bottom");
     element.classList.add("coib-cookie-box-fade-out-bottom");
     
-    // Get checked options
-    let allowed_cookies = coib_get_allowed_cookie_options();
-    console.log("Allowed cookies: " + allowed_cookies);
+    coib_state_changed();
 }
 
 function coib_save_exit() {
-    console.log("coib_save_exit");
     // Fade out window
     let element = document.getElementById("coib-cookie-box");
     element.classList.remove("coib-cookie-box-fade-in-bottom");
     element.classList.add("coib-cookie-box-fade-out-bottom");
-    // Get checked options
-    let allowed_cookies = coib_get_allowed_cookie_options();
-    console.log("Allowed cookies: " + allowed_cookies);
+    
+    coib_state_changed();
 }
 
 function coib_get_allowed_cookie_options() {
@@ -52,4 +70,45 @@ function coib_show_box() {
     element.classList.add("coib-cookie-box-fade-in-bottom");
     document.getElementById("coib-cookie-box").style.display = "block";
     
+}
+
+function coib_state_changed() {
+    let allowed_cookies = coib_get_allowed_cookie_options();
+    coib_save_settings(allowed_cookies);
+    coib_on_state_changed(allowed_cookies);
+}
+
+function coib_save_settings(allowed_cookies) {
+    coib_set_cookie("coib_seen", "true", 365);
+    coib_set_cookie("coib_allowed_cookies", JSON.stringify(allowed_cookies), 365);
+}
+
+function coib_restore_state(allowed_cookies) {
+    for (i = 0; i < allowed_cookies.length; i++) {
+        name = allowed_cookies[i];
+        (document.getElementsByName(name))[0].checked = true;
+    }
+}
+
+function coib_set_cookie(name, value, expire_days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (expire_days*24*60*60*1000));
+    var expires = "expires="+ date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
+}
+
+function coib_get_cookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
