@@ -123,6 +123,8 @@ function coib_delete_all_cookies() {
     }
 }
 
-function coib_delete_cookie(name) {
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;SameSite=Lax";
+function coib_delete_cookie_if_exists(name, domain) {
+    if (coib_get_cookie(name) != "") {
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain="+domain+";path=/;SameSite=Lax";
+    }
 }
