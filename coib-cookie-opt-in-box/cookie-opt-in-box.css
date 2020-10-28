@@ -53,6 +53,7 @@
 #coib-description {
     display: block;
     margin-bottom: 6px;
+    color: #5a5a5a;
 }
 
 .coib-selection-container {
@@ -79,6 +80,7 @@
     height: 18px;
     /*has to be same as coib-checkbox height*/
     line-height:18px;
+    color: #5a5a5a;
 }
 
 .coib-checkbox-container input {
@@ -177,4 +179,8 @@
     font-size: 0.9em;
     text-align: center;
     padding: 1px;
+}
+
+#coib-more a {
+    color: #828282;
 }
