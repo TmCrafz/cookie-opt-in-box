@@ -97,6 +97,18 @@ function coib_set_cookie(name, value, expire_days) {
     document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
 }
 
+function get_all_cookie_names() { 
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookies = decodedCookie.split(';'); 
+    var cookie_list = []; 
+    for (var i = 0; i < cookies.length; i++) {
+        var values = cookies[i].split("=");
+        var name = values[0].replace(/^ /, '');
+        cookie_list.push(name);
+    } 
+    return cookie_list; 
+}
+
 function coib_get_cookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
